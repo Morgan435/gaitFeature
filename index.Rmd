@@ -1,0 +1,13 @@
+---
+title: "index"
+author: "Kohleth Chia"
+date: "13 November 2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+We need a name for this package. 
+gait2feature is way too long....
