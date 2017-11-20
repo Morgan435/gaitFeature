@@ -69,7 +69,12 @@
       </ul>
       
       <ul class="nav navbar-nav navbar-right">
-        
+        <li>
+  <a href="http://git.mcri.edu.au/GaitLaboratory/gaitfeature/">
+    <span class="fa fa-gitlab"></span>
+     
+  </a>
+</li>
       </ul>
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
@@ -126,7 +131,38 @@ For the coronal and transverse plane, the whole curve can be flipped vertically 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'>## make some fake opposite foot strike time point</span>
 <span class='no'>kinematics</span>$<span class='no'>ofs</span><span class='kw'>=</span><span class='fu'>sample</span>(<span class='fl'>58</span>:<span class='fl'>62</span>,<span class='fu'>nrow</span>(<span class='no'>kinematics</span>),<span class='kw'>replace</span><span class='kw'>=</span><span class='no'>T</span>)
-<span class='no'>homogenized</span><span class='kw'>=</span><span class='fu'>PelR2L</span>(<span class='fu'>subset</span>(<span class='no'>kinematics</span>,<span class='no'>joint</span><span class='kw'>==</span><span class='st'>"Pel"</span><span class='kw'>&amp;</span><span class='no'>plane</span><span class='kw'>==</span><span class='st'>"sag"</span>),<span class='st'>"ofs"</span>)</div><div class='output co'>#&gt; <span class='message'>Joining, by = "curve_id"</span></div><div class='input'><span class='fu'>matplot</span>(<span class='fu'>t</span>(<span class='no'>homogenized</span><span class='kw'>%&gt;%</span><span class='fu'>select</span>(<span class='no'>`0`</span>:<span class='no'>`100`</span>)),<span class='kw'>type</span><span class='kw'>=</span><span class='st'>"l"</span>,<span class='kw'>lty</span><span class='kw'>=</span><span class='fl'>1</span>,<span class='kw'>col</span><span class='kw'>=</span><span class='fu'>ifelse</span>(<span class='no'>temp</span>$<span class='no'>side</span><span class='kw'>==</span><span class='st'>"R"</span>,<span class='st'>"blue"</span>,<span class='st'>"red"</span>))</div><div class='output co'>#&gt; <span class='error'>Error in ifelse(temp$side == "R", "blue", "red"): object 'temp' not found</span></div><div class='input'><span class='fu'>matplot</span>(<span class='fu'>t</span>(<span class='fu'>subset</span>(<span class='no'>kinematics</span>,<span class='no'>joint</span><span class='kw'>==</span><span class='st'>"Pel"</span><span class='kw'>&amp;</span><span class='no'>plane</span><span class='kw'>==</span><span class='st'>"sag"</span>)<span class='kw'>%&gt;%</span><span class='fu'>select</span>(<span class='no'>`0`</span>:<span class='no'>`100`</span>)),<span class='kw'>type</span><span class='kw'>=</span><span class='st'>"l"</span>,<span class='kw'>lty</span><span class='kw'>=</span><span class='fl'>1</span>,<span class='kw'>col</span><span class='kw'>=</span><span class='fu'>ifelse</span>(<span class='no'>temp</span>$<span class='no'>side</span><span class='kw'>==</span><span class='st'>"R"</span>,<span class='st'>"blue"</span>,<span class='st'>"red"</span>))</div><div class='output co'>#&gt; <span class='error'>Error in ifelse(temp$side == "R", "blue", "red"): object 'temp' not found</span></div><div class='input'><span class='fu'>PelR2L</span>(<span class='fu'>subset</span>(<span class='no'>kinematics</span>,<span class='no'>joint</span><span class='kw'>==</span><span class='st'>"Pel"</span><span class='kw'>&amp;</span><span class='no'>plane</span><span class='kw'>==</span><span class='st'>"cor"</span>),<span class='st'>"ofs"</span>,<span class='kw'>flipped</span><span class='kw'>=</span><span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; <span class='error'>Error in vars(`0`:`100`): could not find function "vars"</span></div></pre>
+<span class='no'>homogenized</span><span class='kw'>=</span><span class='fu'>PelR2L</span>(<span class='fu'>subset</span>(<span class='no'>kinematics</span>,<span class='no'>joint</span><span class='kw'>==</span><span class='st'>"Pel"</span><span class='kw'>&amp;</span><span class='no'>plane</span><span class='kw'>==</span><span class='st'>"sag"</span>),<span class='st'>"ofs"</span>)</div><div class='output co'>#&gt; <span class='message'>Joining, by = "curve_id"</span></div><div class='input'><span class='fu'>matplot</span>(<span class='fu'>t</span>(<span class='no'>homogenized</span><span class='kw'>%&gt;%</span><span class='fu'>select</span>(<span class='no'>`0`</span>:<span class='no'>`100`</span>)),<span class='kw'>type</span><span class='kw'>=</span><span class='st'>"l"</span>,<span class='kw'>lty</span><span class='kw'>=</span><span class='fl'>1</span>,<span class='kw'>col</span><span class='kw'>=</span><span class='fu'>ifelse</span>(<span class='no'>temp</span>$<span class='no'>side</span><span class='kw'>==</span><span class='st'>"R"</span>,<span class='st'>"blue"</span>,<span class='st'>"red"</span>))</div><div class='output co'>#&gt; <span class='error'>Error in ifelse(temp$side == "R", "blue", "red"): object 'temp' not found</span></div><div class='input'><span class='fu'>matplot</span>(<span class='fu'>t</span>(<span class='fu'>subset</span>(<span class='no'>kinematics</span>,<span class='no'>joint</span><span class='kw'>==</span><span class='st'>"Pel"</span><span class='kw'>&amp;</span><span class='no'>plane</span><span class='kw'>==</span><span class='st'>"sag"</span>)<span class='kw'>%&gt;%</span><span class='fu'>select</span>(<span class='no'>`0`</span>:<span class='no'>`100`</span>)),<span class='kw'>type</span><span class='kw'>=</span><span class='st'>"l"</span>,<span class='kw'>lty</span><span class='kw'>=</span><span class='fl'>1</span>,<span class='kw'>col</span><span class='kw'>=</span><span class='fu'>ifelse</span>(<span class='no'>temp</span>$<span class='no'>side</span><span class='kw'>==</span><span class='st'>"R"</span>,<span class='st'>"blue"</span>,<span class='st'>"red"</span>))</div><div class='output co'>#&gt; <span class='error'>Error in ifelse(temp$side == "R", "blue", "red"): object 'temp' not found</span></div><div class='input'><span class='fu'>PelR2L</span>(<span class='fu'>subset</span>(<span class='no'>kinematics</span>,<span class='no'>joint</span><span class='kw'>==</span><span class='st'>"Pel"</span><span class='kw'>&amp;</span><span class='no'>plane</span><span class='kw'>==</span><span class='st'>"cor"</span>),<span class='st'>"ofs"</span>,<span class='kw'>flipped</span><span class='kw'>=</span><span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; <span class='message'>Joining, by = "curve_id"</span></div><div class='output co'>#&gt; # A tibble: 12 x 106
+#&gt;    curve_id joint  side plane   ofs     `0`     `1`     `2`     `3`     `4`
+#&gt;       &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;
+#&gt;  1       11   Pel     L   cor    62 -2.6828 -2.4044 -2.0888 -1.7429 -1.3744
+#&gt;  2       12   Pel     R   cor    58 -0.7102 -0.3129  0.0730  0.4388  0.7755
+#&gt;  3       41   Pel     L   cor    61 -3.0019 -2.6787 -2.2869 -1.8349 -1.3319
+#&gt;  4       42   Pel     R   cor    60  1.0433  1.4483  1.8817  2.3309  2.7830
+#&gt;  5       71   Pel     L   cor    60 -7.5053 -7.0780 -6.5701 -5.9943 -5.3652
+#&gt;  6       72   Pel     R   cor    59  3.7955  4.0335  4.1979  4.2765  4.2676
+#&gt;  7      101   Pel     L   cor    62 -2.2969 -2.0101 -1.6714 -1.2893 -0.8733
+#&gt;  8      102   Pel     R   cor    62  7.5071  7.8916  8.1914  8.3997  8.5024
+#&gt;  9      131   Pel     L   cor    58 -3.7230 -3.5889 -3.3953 -3.1520 -2.8704
+#&gt; 10      132   Pel     R   cor    61 -0.9900 -0.8913 -0.8630 -0.9078 -1.0260
+#&gt; 11      161   Pel     L   cor    62 -5.0819 -4.8798 -4.5511 -4.1062 -3.5602
+#&gt; 12      162   Pel     R   cor    62  1.9137  1.9072  1.7789  1.5369  1.1935
+#&gt; # ... with 96 more variables: `5` &lt;dbl&gt;, `6` &lt;dbl&gt;, `7` &lt;dbl&gt;, `8` &lt;dbl&gt;,
+#&gt; #   `9` &lt;dbl&gt;, `10` &lt;dbl&gt;, `11` &lt;dbl&gt;, `12` &lt;dbl&gt;, `13` &lt;dbl&gt;, `14` &lt;dbl&gt;,
+#&gt; #   `15` &lt;dbl&gt;, `16` &lt;dbl&gt;, `17` &lt;dbl&gt;, `18` &lt;dbl&gt;, `19` &lt;dbl&gt;, `20` &lt;dbl&gt;,
+#&gt; #   `21` &lt;dbl&gt;, `22` &lt;dbl&gt;, `23` &lt;dbl&gt;, `24` &lt;dbl&gt;, `25` &lt;dbl&gt;, `26` &lt;dbl&gt;,
+#&gt; #   `27` &lt;dbl&gt;, `28` &lt;dbl&gt;, `29` &lt;dbl&gt;, `30` &lt;dbl&gt;, `31` &lt;dbl&gt;, `32` &lt;dbl&gt;,
+#&gt; #   `33` &lt;dbl&gt;, `34` &lt;dbl&gt;, `35` &lt;dbl&gt;, `36` &lt;dbl&gt;, `37` &lt;dbl&gt;, `38` &lt;dbl&gt;,
+#&gt; #   `39` &lt;dbl&gt;, `40` &lt;dbl&gt;, `41` &lt;dbl&gt;, `42` &lt;dbl&gt;, `43` &lt;dbl&gt;, `44` &lt;dbl&gt;,
+#&gt; #   `45` &lt;dbl&gt;, `46` &lt;dbl&gt;, `47` &lt;dbl&gt;, `48` &lt;dbl&gt;, `49` &lt;dbl&gt;, `50` &lt;dbl&gt;,
+#&gt; #   `51` &lt;dbl&gt;, `52` &lt;dbl&gt;, `53` &lt;dbl&gt;, `54` &lt;dbl&gt;, `55` &lt;dbl&gt;, `56` &lt;dbl&gt;,
+#&gt; #   `57` &lt;dbl&gt;, `58` &lt;dbl&gt;, `59` &lt;dbl&gt;, `60` &lt;dbl&gt;, `61` &lt;dbl&gt;, `62` &lt;dbl&gt;,
+#&gt; #   `63` &lt;dbl&gt;, `64` &lt;dbl&gt;, `65` &lt;dbl&gt;, `66` &lt;dbl&gt;, `67` &lt;dbl&gt;, `68` &lt;dbl&gt;,
+#&gt; #   `69` &lt;dbl&gt;, `70` &lt;dbl&gt;, `71` &lt;dbl&gt;, `72` &lt;dbl&gt;, `73` &lt;dbl&gt;, `74` &lt;dbl&gt;,
+#&gt; #   `75` &lt;dbl&gt;, `76` &lt;dbl&gt;, `77` &lt;dbl&gt;, `78` &lt;dbl&gt;, `79` &lt;dbl&gt;, `80` &lt;dbl&gt;,
+#&gt; #   `81` &lt;dbl&gt;, `82` &lt;dbl&gt;, `83` &lt;dbl&gt;, `84` &lt;dbl&gt;, `85` &lt;dbl&gt;, `86` &lt;dbl&gt;,
+#&gt; #   `87` &lt;dbl&gt;, `88` &lt;dbl&gt;, `89` &lt;dbl&gt;, `90` &lt;dbl&gt;, `91` &lt;dbl&gt;, `92` &lt;dbl&gt;,
+#&gt; #   `93` &lt;dbl&gt;, `94` &lt;dbl&gt;, `95` &lt;dbl&gt;, `96` &lt;dbl&gt;, `97` &lt;dbl&gt;, `98` &lt;dbl&gt;,
+#&gt; #   `99` &lt;dbl&gt;, `100` &lt;dbl&gt;</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

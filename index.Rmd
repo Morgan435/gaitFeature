@@ -9,5 +9,10 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-We need a name for this package. 
-gait2feature is way too long....
+## gaitFeature
+
+`gaitFeature` is an R package to facilitate the detection of features on gait kinematics curves.
+
+For a quick start guide see [Get Started](articles/quick_start.html).
+
+For ways to construct your own feature detector see [Constructing your own feature detector](articles/construct_new_feature_detector.html).

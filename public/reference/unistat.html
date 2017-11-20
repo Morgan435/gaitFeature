@@ -69,7 +69,12 @@
       </ul>
       
       <ul class="nav navbar-nav navbar-right">
-        
+        <li>
+  <a href="http://git.mcri.edu.au/GaitLaboratory/gaitfeature/">
+    <span class="fa fa-gitlab"></span>
+     
+  </a>
+</li>
       </ul>
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
@@ -176,14 +181,8 @@ For example, if a feature consist of multiple clauses, the <code>finish</code> f
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>library</span>(<span class='no'>dplyr</span>)</div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>Attaching package: ‘dplyr’</span></div><div class='output co'>#&gt; <span class='message'>The following object is masked from ‘package:testthat’:</span>
-#&gt; <span class='message'></span>
-#&gt; <span class='message'>    matches</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:stats’:</span>
-#&gt; <span class='message'></span>
-#&gt; <span class='message'>    filter, lag</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:base’:</span>
-#&gt; <span class='message'></span>
-#&gt; <span class='message'>    intersect, setdiff, setequal, union</span></div><div class='input'><span class='no'>.dtEPS</span><span class='kw'>=</span><span class='kw'>function</span>(<span class='no'>df</span>){
+    <pre class="examples"><div class='input'><span class='fu'>library</span>(<span class='no'>dplyr</span>)
+<span class='no'>.dtEPS</span><span class='kw'>=</span><span class='kw'>function</span>(<span class='no'>df</span>){
   <span class='no'>df</span><span class='kw'>%&gt;%</span>
   <span class='fu'><a href='http://dplyr.tidyverse.org/reference/filter.html'>filter</a></span>(<span class='no'>joint</span><span class='kw'>==</span><span class='st'>"FootProgress"</span><span class='kw'>&amp;</span><span class='no'>plane</span><span class='kw'>==</span><span class='st'>"tra"</span>)<span class='kw'>%&gt;%</span>
   <span class='fu'>unistat</span>(<span class='no'>`60`</span>:<span class='no'>`100`</span>,<span class='kw'>.f</span><span class='kw'>=</span><span class='no'>.ROM</span>,<span class='kw'>.dir</span><span class='kw'>=</span><span class='st'>"&gt;"</span>,<span class='kw'>k</span><span class='kw'>=</span><span class='fl'>2</span>)<span class='kw'>%&gt;%</span>

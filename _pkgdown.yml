@@ -10,7 +10,9 @@ navbar:
     href: articles/construct_new_feature_detector.html
   - text: Reference
     href: reference/index.html
-  right: []
+  right:
+  - icon: fa-gitlab
+    href: http://git.mcri.edu.au/GaitLaboratory/gaitfeature/
 
 template:
   params:
