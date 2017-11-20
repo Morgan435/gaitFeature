@@ -2,6 +2,7 @@
 #' @param .joint joint name
 #' @param .plane plane name
 #' @return a dataframe of referene curve filtered to the specified joint and plane.
+#' @seealso rc
 #' @examples
 #' getRC("Ankle","sag")
 #' @export

@@ -1,0 +1,31 @@
+navbar:
+  title: gaitFeature
+  type: default
+  left:
+  - icon: fa-home fa-lg
+    href: index.html
+  - text: Get Started
+    href: articles/quick_start.html
+  - text: Constructing your own feature detector
+    href: articles/construct_new_feature_detector.html
+  - text: Reference
+    href: reference/index.html
+  right: []
+
+template:
+  params:
+    bootswatch: simplex
+
+reference:
+- title: All functions
+  desc: ~
+  contents:
+  - '`.tp`'
+  - '`definitions`'
+  - '`detectAll`'
+  - '`getRC`'
+  - '`makeFDict`'
+  - '`PelR2L`'
+  - '`.rc`'
+  - '`resamp101`'
+  - '`unistat`'

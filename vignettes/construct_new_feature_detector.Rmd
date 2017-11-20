@@ -1,0 +1,191 @@
+---
+title: "Constructing your own feature detector"
+author: "Kohleth Chia"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Constructing your own feature detector}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  message=FALSE,
+  warnings=FALSE
+)
+```
+
+```{r,include=FALSE}
+library(dplyr) 
+```
+Although the package ships with its own set of feature detectors. It is actually not that difficult to incorporate your own.
+All the shipped feature detectors are functions whose name starts with `.dt`. See `?definitions`. 
+
+## A naive example
+In principle, feature detectors are just functions which take a data.frame and return another with columns `curve_id`, `Cl:xxx`, and `fname`, where `Cl:xxx` is the clause component of the feature definition, and `fname` is the machine-friendly feature name. So, for example,
+```{r}
+library(gaitFeature)
+```
+
+```{r}
+myRandomDetector=function(x){
+  detected=sample(0:1,nrow(x),TRUE)
+  data_frame(curve_id=x$curve_id,
+             "Cl:random"=as.logical(detected),
+             Random=detected)
+}
+
+myRandomDetector(kinematics)
+
+```
+
+And you can use the `detectAll` function with it.
+```{r}
+detectAll(kinematics,fDict=data.frame(fn="myRandomDetector"))%>%
+  select(-(`0`:`100`))
+```
+
+## More realistic feature detector
+
+However, a useful feature detector will probably be more sophisticated than that. 
+And this package provides some useful tool to construct these complicated features. 
+But these tools assume a particular way of constructing feature detectors. 
+In particular, a feature detector function should consist of 3 components:
+
+1. A filter to a specific joint and plane.
+2. One or more clauses.
+3. A finish function.
+
+## 1. Filter
+A feature should only apply to a particular joint and plane, so we recommend that you explicitly incorporate a filter in the definition.
+
+## 2. Clauses
+A feature definition should consists of one or more *clauses*. 
+The most commonly used clause is what we called a *univariate statistics clauses*.
+
+And it works as followed:
+
+1. From a curve select a time domain
+2. Compute a summary statistics on the selected curve segment.
+3. Compute the same statistics on each of the reference curve (for typically developed children)
+4. If the statistics computed in 2. is extreme* compared to the set of statistics computed in 3., the clause is passed.
+
+*The definition of extreme is user-definable. For example, it can be > mean + 2 standard deviation.
+
+Step 3 above calls for a set of reference curve. This packages ships with such a set, and can be called by the `getRC()` function. See also `?.rc`. 
+
+This clause is implemented in the function `unistat`. See `?unistat`.
+
+For example ``unistat(x,`60`:`100`, .f=mean, .dir=">", .k=2)`` reads the mean angle at t in [60,100] should be greater than mean + 2SD of the same mean copmuted from the typical reference data.
+
+- `.f` can be any function which returns a single number statistics. See `?.tp` for commonly used functions that ships with this package.
+- The possible directions `.dir` are: `>(=)`, `<(=)`, `%w%`, and `%o%`, where the last two stands for 'within' and 'outside'.
+- An absolute threshold can be specified by using the `.c=xxx` argument instead of `.k=xx`. 
+
+
+## 3. Finish with `finish`
+A feature detector function should finish off with the `finish` function, which does several house-keeping functions, such as checking all clauses are passed before the feature is deemed present, and setting various attributes appropriately.
+
+
+## Example
+If we look at the detector for increased ankle rotation.
+```{r}
+.dtAIR
+```
+
+We will see that,
+
+1. it is a feature which applies to the Ankle on the transverse plane.
+2. There is one clause, which reads the mean angle at t in [60,100] should be greater than mean + 2SD (default) of the same mean copmuted from the typical reference data.
+3. The machine-friendly name for this feature is 'AIR', and the human interpretable name is 'Ankle Internal Rotation'.
+
+## Multiple clauses
+Multiple clauses can be chained together by the pipe `%>%` operator.
+For example,
+```{r}
+.dtDecPelTiltIncROM
+```
+has 2 clauses.
+
+## Other clauses
+In addition to `unistat`, we provide two more clause functions: `corr` and `custom`.
+These clauses become useful when the feature is difficult to define through `unistat`.
+
+
+### Correlation clause `corr`
+A correlation clause works as follow:
+
+1. From a curve select a time domain.
+2. Correlate that curve segment with a set of pre-supplied target curves.
+3. If any of the correlation meets the target threshold the clause is passed
+
+Therefore, in order to use this clause, a set of target curves needs to be supplied (using the `corr(..., TC=x,...)`).
+
+This package ships with 5 sets of target curves, which can be assessed by the `.tc()` function.
+They are: `.tc()$ett`, `.tc()$uni`, `.tc()$s2r`, `.tc()$revrom`, and `.tc()$dblbump`, which are target curves for
+'External Tibial Torsion', 'Uni Bump', 'Short 2nd rocker', 'Reverse ROM', and 'Double Bump'.
+
+Since all these curves have domain 0:100, the same domain should be specified in the `corr` function.
+
+Straightly speaking, we could use the `unistat` clause to achieve the same result. That is,
+
+`corr(...,TC=x,">=",0.8)` is equivalent to
+
+``unistat(`0`:`100`,.f=function(x)max(apply(t(.tc()$dblbump),2,cor,x)),.dir=">=",.c=0.8)``
+
+(the `apply` function is only needed because we have a set of `TC`. Otherwise a simple `cor` will suffice.)
+
+However, the `corr` clause is just more literal and thus easier to interpret.
+
+### Custom clause `custom`
+The custom clause function `custom` allows one to supply a custom condition through as a string `custom(...,cond)`.
+It is particularly useful for clauses that require data other than the kinematics, such as timing related clauses. For example,
+```{r}
+.dtDelayPkKnFx
+```
+has a clause which says the peak angle after `t=60` must occur after `t=75`.
+
+Again, straightly speaking, this clause can be expressed as a univariate clause. That is,
+
+``custom(`60`:`100`, cond="t[which.max(angle)]>75")`` 
+
+is equivalent to 
+
+``unistat(`60`:`100`,.f=function(x)which.max(x),.dir=">",.c=75-60+1)``.
+ 
+However, the `unistat` version relies on the assumption that `x` in `.f` is sorted inn `t`, whereas `custom` is explicitly extracting `t`.
+
+
+## Working with `detectAll`
+Suppose you have created your own detector using the steps outlined above. For illustration we simply copy the `.dtAIR` detector. 
+```{r}
+myDetector=function(df){
+  df%>%
+    filter(joint=="Ankle"&plane=="tra")%>%
+    unistat(`0`:`60`,.f=mean,.dir=">")%>%
+    finish(featurename = "My Detector. Should be same as .dtAIR",fname = "MyDetector")
+}
+```
+
+You can ask `detectAll` to run it by constructing the corresponding feature dictionary.
+```{r}
+myDict=makeFDict("myDetector")
+kinematics%>%
+  filter(joint=="Ankle",plane=="tra")%>%
+  detectAll(fDict=myDict)%>%
+  select(-(`0`:`100`))
+```
+You can also add it to an existing (e.g. the default) dictionary.
+```{r}
+defaultDict=makeFDict(".dtAIR")
+newDict=defaultDict%>%
+  rbind(myDict)
+
+kinematics%>%
+  filter(joint=="Ankle",plane=="tra")%>%
+  detectAll(fDict=newDict)%>%
+  select(-(`0`:`100`))
+```
