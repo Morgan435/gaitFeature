@@ -24,6 +24,8 @@ This is an R package so I assume you are already familiar with R.
 Throughout this guide we will be using the dataset `kinematics` which comes with this package.
 
 ## Installation
+Will finalize this once this repository has a permanent resting place.
+
 
 ## Quick Start
 The functions in this package assume the kinematics data is already loaded in R, in the **wide** format. Specifically, the kinematics `data.frame` should contain at least columns `curve_id`, `joint`, `plane`, `0,1,2,...,100`. Each row in the dataframe represent a kinematics curve on a particular joint and plane, identified by field `curve_id`, with data at 101 time points `0,1,2,...,100`.
