@@ -245,9 +245,8 @@ definitions=function()NULL
   df%>%
     filter(joint=="Knee"&plane=="sag")%>%
     unistat(`0`,.f=c,.dir=">",k=2)%>%
-    unistat(`10`:`25`,.f=min,.dir="<",.k=-1)%>%
+    unistat(`10`:`25`,.f=min,.dir="<",k=-1)%>%
     unistat(`10`:`25`,.f=.npit,.dir=">",.c=0)%>%
-    # custom(`0`:`25`,cond = "abs(angle[1]-min(angle))>10")%>%
     unistat(`0`:`25`,.f=function(x)abs(x[1]-min(x)),.dir=">",.c=10)%>%
     finish(featurename = "Increased flexion @ IC+\n early knee extension",fname = "KFxatICincAndEE")
 }
