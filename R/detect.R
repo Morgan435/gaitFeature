@@ -33,24 +33,25 @@ detectAll=function(x,plane=NULL,joint=NULL,comp=FALSE,fDict=NULL){
   fDict=fDict%>%
     mutate_if(is.factor,as.character)
 
+  if(!is.null(plane))fDict=fDict[fDict$plane%in%plane,]
+  if(!is.null(joint))fDict=fDict[fDict$joint%in%joint,]
+
+  fnList=fDict$fn
+  detected=vector(mode = "list",length = length(fnList))
+  for(i in 1:length(fnList))detected[[i]]=do.call(fnList[i],list(x))
+
+
   suppressMessages({
-    if(!is.null(plane))fDict=fDict[fDict$plane%in%plane,]
-    if(!is.null(joint))fDict=fDict[fDict$joint%in%joint,]
+    features=detected%>%
+      lapply(function(d)d%>%select(-starts_with("Cl:")))%>%
+      Reduce(full_join,.)
+  })
 
-    fnList=fDict$fn
-    detected=vector(mode = "list",length = length(fnList))
-    for(i in 1:length(fnList))detected[[i]]=do.call(fnList[i],list(x))
-
-
-  features=detected%>%
-    lapply(function(d)d%>%select(-starts_with("Cl:")))%>%
-    Reduce(full_join,.)
 
   if(is.null(features))return(NULL)
 
   result=x%>%
     left_join(features,by="curve_id")
-  })
 
   if(comp)attr(result,"comp")=detected
 

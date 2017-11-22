@@ -83,7 +83,7 @@ unistat=function(x,...,.f,.dir,.c,k=1,clDesc=NULL){
   # browser()
   pass=x%>%
     group_by(curve_id)%>%
-    select(...)%>%
+    select(curve_id,...)%>%
     gather("t","angle",-curve_id,convert=TRUE)%>%
     summarize_at("angle",.f)%>%
     mutate_(pass=crit)%>%
@@ -92,7 +92,7 @@ unistat=function(x,...,.f,.dir,.c,k=1,clDesc=NULL){
 
   colnames(pass)[colnames(pass)=="pass"]=clDesc
 
-  x%>%inner_join(pass)
+  x%>%inner_join(pass,by="curve_id")
 }
 
 
@@ -112,7 +112,7 @@ corr=function(x,...,TC,.dir=">=",.c=0.8,clDesc=NULL){
   # browser()
   pass=x%>%
     group_by(curve_id)%>%
-    select(...)%>%
+    select(curve_id,...)%>%
     gather("t","angle",-curve_id,convert=TRUE)%>%
     summarize(angle=max(apply(TC,1,cor,angle)))%>%
     mutate_(pass=crit)%>%
@@ -121,7 +121,7 @@ corr=function(x,...,TC,.dir=">=",.c=0.8,clDesc=NULL){
 
   colnames(pass)[colnames(pass)=="pass"]=clDesc
 
-  x%>%inner_join(pass)
+  x%>%inner_join(pass,by="curve_id")
 
 }
 
@@ -130,7 +130,7 @@ custom=function(x,...,cond,clDesc){
   if(!is.character(cond))stop("argument 'cond' must be a string.")
   pass=x%>%
     group_by(curve_id)%>%
-    select(...)%>%
+    select(curve_id,...)%>%
     gather("t","angle",-curve_id,convert=TRUE)%>%
     summarize_(pass=cond)%>%
     ungroup%>%
@@ -140,7 +140,7 @@ custom=function(x,...,cond,clDesc){
 
   colnames(pass)[colnames(pass)=="pass"]=clDesc
 
-  x%>%inner_join(pass)
+  x%>%inner_join(pass,by="curve_id")
 }
 
 #' @describeIn unistat finish
