@@ -70,7 +70,7 @@ And it works as followed:
 
 1. From a curve select a time domain
 2. Compute a summary statistics on the selected curve segment.
-3. Compute the same statistics on each of the reference curve (for typically developed children)
+3. Compute the same statistics on each of the reference curve (for typically developed children).
 4. If the statistics computed in 2. is extreme* compared to the set of statistics computed in 3., the clause is passed.
 
 *The definition of extreme is user-definable. For example, it can be > mean + 2 standard deviation.
@@ -120,7 +120,7 @@ A correlation clause works as follow:
 
 1. From a curve select a time domain.
 2. Correlate that curve segment with a set of pre-supplied target curves.
-3. If any of the correlation meets the target threshold the clause is passed
+3. If any of the correlation meets the target threshold the clause is passed.
 
 Therefore, in order to use this clause, a set of target curves needs to be supplied (using the `corr(..., TC=x,...)`).
 

@@ -2,11 +2,11 @@
 #' @param x data.frame which consists (at least) of columns: joint, plane, curve_id, 0,1,2,...,100
 #' @param plane a character vector. Only feature matching this plane will be detected.
 #' Whatever is specified here should appear in the \code{fDict} data.frame.
-#' For the default feature definitions, the possible choices are \code{"Pel","Hip","Knee","Ankle","FootProgress"}.
+#' For the default feature definitions, the possible choices are \code{"sag","cor","tra"}.
 #' If \code{NULL} (default) all planes are detected.
 #' @param joint a character vector. Only feature matching this joint will be detected. If \code{NULL} (default) all joints are detected.
 #' #' Whatever is specified here should appear in the \code{fDict} data.frame.
-#' For the default feature definitions, the possible choices are \code{"sag","cor","tra"}.
+#' For the default feature definitions, the possible choices are \code{"Pel","Hip","Knee","Ankle","FootProgress"}.
 #' If \code{NULL} (default) all planes are detected.
 #' @param comp logical. If \code{TRUE} the return value will have \code{attr(.,"comp")} which gives the clause result of the features.
 #' @param fDict a data.frame (at least) with columns \code{fn},\code{joint}, and \code{plane}, used to decide which features to detect.
