@@ -1,7 +1,7 @@
 Package: gaitFeature
 Type: Package
 Title: Gait Feature Detector
-Version: 0.1.1
+Version: 0.1.2
 Authors@R: person("Kohleth","Chia",role=c("aut","cre"),email="kohleth@gmail.com")
 Maintainer: Kohleth Chia <kohleth@gmail.com>
 Description: Some gait kinematics feature detectors, together with tools to build your own.
