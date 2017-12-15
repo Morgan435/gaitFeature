@@ -66,6 +66,7 @@ unistat=function(x,...,.f,.dir,.c,k=1,clDesc=NULL){
 
 
   if(missing(.c)){
+    if(.dir=="==")stop("direction == can only work with absolute threshold .c but not # s.d. k.")
     ss=getRC(x$joint[1],x$plane[1])%>%
       select(...)%>%
       apply(1,.f)

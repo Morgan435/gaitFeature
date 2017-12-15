@@ -20,3 +20,6 @@ Get reference curve
 \examples{
 getRC("Ankle","sag")
 }
+\seealso{
+rc
+}
