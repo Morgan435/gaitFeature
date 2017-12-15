@@ -10,3 +10,5 @@ Assuming you have access right to this repository, to install `gaitFeature`, sim
 If you are missing the required R pakcages `devtools` and `git2r` you can install them from CRAN. 
 
 `install.packages(c("devtools","git2r"))`
+
+`git2r::cred_user_pass()` can be replaced by other `git2r` authentation method such as `git2r::cred_ssh_key()` or `git2r::cred_ssh_token()`.
