@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE project   [
+<!ENTITY common SYSTEM "common.xml">
+]>
+<project name="gaitFeature" default="_Deploy" basedir=".">
+
+	<!-- set global properties for this build -->
+	<property name="server" value="rshiny.mcri.edu.au" />
+	<property name="username" value="root" />
+	<property name="base" value="/usr/lib64/R/library/" />
+	<property name="folder" value="${base}/gaitFeature" />
+	<property name="ssh.key" value="${basedir}/../sshKeys/CodeDeployment" />
+
+	<property name="temp.folder" value="${basedir}/temp" />
+	<!-- set global properties for this build -->
+
+	<target name="_Deploy" depends="compile">
+		<!-- The removeExtention needs to be called before you copy the files. Just uncomment here to specify a particular file -->
+		<!-- <antcall target="removeExtention"><param name="file" value="fileName" /><param name="ext" value="extention" /></antcall> -->
+		<!-- To remove all extentions of a particular type use the following -->
+		<!-- <antcall target="removeAllExtentions"><param name="ext" value="sh" /></antcall> -->
+
+		<scp remoteTodir="${username}@${server}:${folder}" sftp="yes" keyfile="${ssh.key}" verbose="false" passphrase="" trust="true">
+			<fileset dir="${temp.folder}">
+				<include name="**/*" />
+			</fileset>
+		</scp>
+
+		<antcall target="cleanup" />
+
+
+		<!-- <antcall target="rename">
+			<param name="server" value="${server}" />
+			<param name="username" value="${username}" />
+			<param name="ssh.key" value="${ssh.key}" />
+			<param name="oldName" value="${folder}/scriptPath/oldScriptName" />
+			<param name="newName" value="${folder}/scriptPath/newScriptName" />
+		</antcall> -->
+		<antcall target="chown">
+			<param name="server" value="${server}" />
+			<param name="username" value="${username}" />
+			<param name="ssh.key" value="${ssh.key}" />
+			<param name="script" value="${folder}" />
+			<param name="ownership" value="root:root" />
+		</antcall>
+		<antcall target="chmod">
+			<param name="server" value="${server}" />
+			<param name="username" value="${username}" />
+			<param name="ssh.key" value="${ssh.key}" />
+			<param name="script" value="${folder}" />
+			<param name="perm" value="755" />
+		</antcall>
+		<!-- <antcall target="create.link">
+			<param name="server" value="${server}" />
+			<param name="username" value="${username}" />
+			<param name="ssh.key" value="${ssh.key}" />
+			<param name="script" value="${folder}/scriptPath/scriptName" />
+			<param name="pointer" value="/linkPath/linkName" />
+		</antcall> -->
+		<!-- <antcall target="dos2unix">
+			<param name="server" value="${server}" />
+			<param name="username" value="${username}" />
+			<param name="ssh.key" value="${ssh.key}" />
+			<param name="script" value="${folder}/scriptPath/scriptName" />
+		</antcall> -->
+		<!-- <antcall target="exec">
+			<param name="server" value="${server}" />
+			<param name="username" value="${username}" />
+			<param name="ssh.key" value="${ssh.key}" />
+			<param name="command" value="#CLI COMMAND" />
+		</antcall> -->
+	</target>
+
+	<target name="compile" depends="setup">
+		<copy todir="${temp.folder}">
+			<fileset dir=".">
+				<include name="**/*" />
+				<exclude name="temp/" />
+				<exclude name="deploy.xml" />
+				<exclude name="easyDeploy.xml" />
+				<exclude name=".buildpath" />
+				<exclude name=".project" />
+				<exclude name=".gitignore" />
+				<exclude name="**/no.deploy.*" />
+				<exclude name="**/README*" />
+			</fileset>
+		</copy>
+		<delete dir="${temp.folder}/.settings" />
+		<delete dir="${temp.folder}/.svn" />
+	</target>
+
+	<target name="setup" depends="cleanup">
+		<mkdir dir="${temp.folder}" />
+	</target>
+
+	<target name="cleanup">
+		<delete dir="${temp.folder}" />
+	</target>
+
+	<target name="removeAllExtentions">
+		<move todir="${temp.folder}">
+			<fileset dir="${temp.folder}" />
+			<mapper type="glob" from="*.${ext}" to="*" />
+		</move>
+	</target>
+
+	<target name="removeExtention">
+		<move file="${temp.folder}/${file}.${ext}" tofile="${temp.folder}/${file}" />
+	</target>
+
+	<target name="create.link">
+		<sshexec host="${server}" username="${username}" keyfile="${ssh.key}" passphrase="" trust="true" verbose="false" command="if [ ! -L ${pointer} ]; then ln -s ${script} ${pointer}; fi;" />
+	</target>
+
+	<target name="chown">
+		<sshexec host="${server}" username="${username}" keyfile="${ssh.key}" passphrase="" trust="true" verbose="false" command="chown -R ${ownership} ${script}" />
+	</target>
+
+	<target name="chmod">
+		<sshexec host="${server}" username="${username}" keyfile="${ssh.key}" passphrase="" trust="true" verbose="false" command="chmod -R ${perm} ${script}" />
+	</target>
+
+	<target name="dos2unix">
+		<sshexec host="${server}" username="${username}" keyfile="${ssh.key}" passphrase="" trust="true" verbose="false" command="dos2unix ${script}" />
+	</target>
+
+	<target name="rename">
+		<sshexec host="${server}" username="${username}" keyfile="${ssh.key}" passphrase="" trust="true" verbose="false" command="mv ${oldName} ${newName}" />
+	</target>
+
+	<target name="exec">
+		<sshexec host="${server}" username="${username}" keyfile="${ssh.key}" passphrase="" trust="true" verbose="false" command="${command}" />
+	</target>
+</project>
