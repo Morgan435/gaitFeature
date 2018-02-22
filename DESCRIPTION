@@ -1,9 +1,12 @@
 Package: gaitFeature
 Type: Package
 Title: Gait Feature Detector
-Version: 0.1.2
-Authors@R: person("Kohleth","Chia",role="aut",email="kohleth@gmail.com")
-Maintainer: person("Morgan","Sangeux",role="cre",email="morgan.sangeux@gmail.com")
+Version: 0.1.3
+Authors@R: c(
+        person("Kohleth Chia","Statistician",role="aut",email="kohleth@gmail.com"),
+        person("Morgan Sangeux","Researcher",role="cre",email="morgan.sangeux@gmail.com")
+        )
+Maintainer: Morgan Sangeux <morgan.sangeux@gmail.com>
 Description: Some gait kinematics feature detectors, together with tools to build your own.
 License: MIT
 Encoding: UTF-8
