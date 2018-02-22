@@ -11,8 +11,8 @@ navbar:
   - text: Reference
     href: reference/index.html
   right:
-  - icon: fa-gitlab
-    href: http://git.mcri.edu.au/GaitLaboratory/gaitfeature/
+  - icon: fa-github
+    href: https://github.com/Morgan435/gaitFeature/
 
 template:
   params:
