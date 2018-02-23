@@ -1,6 +1,6 @@
 ## README
 
-For user guide please go to: <a href=http://Morgan435.github.io/gaitfeature target=_blank>http://Morgan435.github.io/gaitfeature</a>
+For user guide please go to: <a href=https://morgan435.github.io/gaitFeature/ target=_blank>https://morgan435.github.io/gaitFeature/</a>
 
 ## Installation
 To install `gaitFeature`, simply execute the following:
